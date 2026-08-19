@@ -37,10 +37,12 @@ def transcrever(arquivo, parar):
 
 modelo = whisper.load_model("base")
 
-arquivos = list(PASTA_INPUT.glob("*.mp3"))
+arquivos = sorted(
+    [p for p in PASTA_INPUT.iterdir() if p.suffix.lower() in (".mp3", ".m4a")]
+)
 
 if not arquivos:
-    print(f"Nenhum arquivo .mp3 encontrado em {PASTA_INPUT}")
+    print(f"Nenhum arquivo .mp3 ou .m4a encontrado em {PASTA_INPUT}")
     raise SystemExit(1)
 
 PASTA_OUTPUT.mkdir(exist_ok=True)
