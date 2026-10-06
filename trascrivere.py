@@ -35,7 +35,22 @@ def transcrever(arquivo, parar):
         print(f"Erro ao transcrever {arquivo.name}: {e}")
 
 
-modelo = whisper.load_model("base")
+def escolher_modelo():
+    print("Escolha o modelo Whisper:")
+    print("1 - base (mais rapido)")
+    print("2 - medium (maior precisao, mais lento)")
+    while True:
+        escolha = input("Modelo [1/2, Enter = base]: ").strip().lower()
+        if escolha in ("", "1", "base"):
+            return "base"
+        if escolha in ("2", "medium"):
+            return "medium"
+        print("Opcao invalida. Escolha 1 (base) ou 2 (medium).")
+
+
+nome_modelo = escolher_modelo()
+print(f"Carregando modelo {nome_modelo}...")
+modelo = whisper.load_model(nome_modelo)
 
 arquivos = sorted(
     [p for p in PASTA_INPUT.iterdir() if p.suffix.lower() in (".mp3", ".m4a", ".mp4")]
